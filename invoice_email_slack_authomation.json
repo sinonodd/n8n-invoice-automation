@@ -1,0 +1,509 @@
+{
+  "name": "invoice-email-slack-authomation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-order",
+        "options": {}
+      },
+      "id": "839fd3aa-2568-46ab-a5ce-af873d98eade",
+      "name": "New Order Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1240,
+        360
+      ],
+      "webhookId": "new-order-webhook-123"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-001",
+              "name": "order_id",
+              "value": "={{ $json.order_id }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-002",
+              "name": "customer_name",
+              "value": "={{ $json.customer_name }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-003",
+              "name": "customer_email",
+              "value": "={{ $json.customer_email }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-004",
+              "name": "total_amount",
+              "value": "={{ $json.total_amount }}",
+              "type": "number"
+            },
+            {
+              "id": "assign-005",
+              "name": "items",
+              "value": "={{ $json.items }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-006",
+              "name": "order_date",
+              "value": "={{ $now.toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-007",
+              "name": "invoice_number",
+              "value": "=INV-{{ $now.toFormat('yyyyMMdd') }}-{{ $json.order_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d0f5bc75-aacf-46b9-8889-5c57aa5e514e",
+      "name": "Extract Order Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1020,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A",
+          "mode": "list",
+          "cachedResultName": "invioce-n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total_amount",
+              "displayName": "total_amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "items",
+              "displayName": "items",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "order_date",
+              "displayName": "order_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoice_number",
+              "displayName": "invoice_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "invoice_status",
+              "displayName": "invoice_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sent_date",
+              "displayName": "sent_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "due_date",
+              "displayName": "due_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "dd666939-808a-43e7-b956-6389ff35316a",
+      "name": "Save Order to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -800,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "H4e4v43Z1ZvN9HNz",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.total_amount }}",
+              "rightValue": 500,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              },
+              "id": "64f09df5-4ad8-4b7d-931e-94edeeae6eac"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "63a88313-7f76-4940-bdcc-145e14a512db",
+      "name": "High Value Order?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "html-001",
+              "name": "invoice_html",
+              "value": "=<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }\n    .header { background: #2563eb; color: white; padding: 30px; text-align: center; }\n    .invoice-details { margin: 30px 0; }\n    .invoice-details table { width: 100%; border-collapse: collapse; }\n    .invoice-details td { padding: 10px; border-bottom: 1px solid #e5e7eb; }\n    .invoice-details td:first-child { font-weight: bold; width: 200px; }\n    .items-table { width: 100%; border-collapse: collapse; margin: 30px 0; }\n    .items-table th { background: #f3f4f6; padding: 12px; text-align: left; border-bottom: 2px solid #d1d5db; }\n    .items-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; }\n    .total-section { text-align: right; margin: 30px 0; }\n    .total-amount { font-size: 24px; font-weight: bold; color: #2563eb; }\n    .footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 2px solid #e5e7eb; color: #6b7280; }\n    .badge { background: #10b981; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; }\n  </style>\n</head>\n<body>\n  <div class=\"header\">\n    <h1>INVOICE</h1>\n    <p>{{ $json.invoice_number }}</p>\n  </div>\n  \n  <div class=\"invoice-details\">\n    <table>\n      <tr>\n        <td>Customer Name:</td>\n        <td>{{ $json.customer_name }}</td>\n      </tr>\n      <tr>\n        <td>Email:</td>\n        <td>{{ $json.customer_email }}</td>\n      </tr>\n      <tr>\n        <td>Order ID:</td>\n        <td>{{ $json.order_id }}</td>\n      </tr>\n      <tr>\n        <td>Invoice Date:</td>\n        <td>{{ $json.order_date }}</td>\n      </tr>\n      <tr>\n        <td>Due Date:</td>\n        <td>{{ $now.plus({days: 30}).toFormat('yyyy-MM-dd') }}</td>\n      </tr>\n      <tr>\n        <td>Status:</td>\n        <td><span class=\"badge\">PREMIUM ORDER</span></td>\n      </tr>\n    </table>\n  </div>\n  \n  <h3>Order Items</h3>\n  <table class=\"items-table\">\n    <tr>\n      <th>Description</th>\n      <th>Amount</th>\n    </tr>\n    <tr>\n      <td>{{ $json.items }}</td>\n      <td>${{ $json.total_amount }}</td>\n    </tr>\n  </table>\n  \n  <div class=\"total-section\">\n    <p><strong>Subtotal:</strong> ${{ $json.total_amount }}</p>\n    <p><strong>Tax (0%):</strong> $0.00</p>\n    <p class=\"total-amount\">Total: ${{ $json.total_amount }}</p>\n  </div>\n  \n  <div class=\"footer\">\n    <p><strong>Payment Terms:</strong> Net 30 days</p>\n    <p>Thank you for your business!</p>\n    <p>Questions? Contact us at invoices@yourcompany.com</p>\n  </div>\n</body>\n</html>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f950375-c2d6-45f9-81bf-cd0ed87bd0c6",
+      "name": "Generate Premium Invoice HTML",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -140,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "kamal8aly545@gmail.com",
+        "subject": "✨ Premium Invoice #{{ $json.invoice_number }} - VIP Customer",
+        "message": "={{ $json.invoice_html }}",
+        "options": {}
+      },
+      "id": "910946ec-06e7-4d35-b267-ea21ebb58f19",
+      "name": "Send Premium Invoice Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        260
+      ],
+      "webhookId": "94a6922c-df74-413f-8ef2-20e8c1514494",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1pgzEadLS7XXl05k",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A",
+          "mode": "list",
+          "cachedResultName": "invioce-n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 124784957,
+          "mode": "list",
+          "cachedResultName": "vip",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/155OUvgqfnhWya0QlQXzhvMqWbUQ2I8-Rj4NlmTnJP5A/edit#gid=124784957"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "30cd9c4b-c277-4f5e-a424-4f01520cb1ed",
+      "name": "Log VIP Order",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -140,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "H4e4v43Z1ZvN9HNz",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0A9BPS8WG5",
+          "mode": "list",
+          "cachedResultName": "sales-alerts"
+        },
+        "text": "=🎉 *VIP ORDER RECEIVED* 🎉\n\n*Invoice:* {{ $json.invoice_number }}\n*Customer:* {{ $json.customer_name }}\n*Amount:* ${{ $json.total_amount }}\n*Items:* {{ $json.items }}\n\n✅ Premium invoice sent automatically\n📊 Logged to VIP tracking sheet",
+        "otherOptions": {}
+      },
+      "id": "c64dcfad-c2f3-462f-8581-c3010199f322",
+      "name": "Alert Sales Team",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        100
+      ],
+      "webhookId": "2ff8e0e7-a43d-4bdf-a133-a73b267388e0",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "CidY0aYFLOz3MfOp",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "kamal8aly545@gmail.com",
+        "subject": "Order Confirmation #{{ $json.order_id }} - Invoice Attached",
+        "message": "=Dear {{ $json.customer_name }},\n\nThank you for your order!\n\nOrder Details:\n━━━━━━━━━━━━━━━━━━━━\nOrder ID: {{ $json.order_id }}\nInvoice Number: {{ $json.invoice_number }}\nItems: {{ $json.items }}\nTotal Amount: ${{ $json.total_amount }}\nOrder Date: {{ $json.order_date }}\nPayment Due: {{ $now.plus({days: 30}).toFormat('MMMM dd, yyyy') }}\n\nYour invoice has been generated and will be processed within 24 hours.\n\nIf you have any questions, please contact our support team.\n\nBest regards,\nYour Company Team",
+        "options": {}
+      },
+      "id": "1367f6bd-cbb1-446a-aed7-5c0b7d1dbe76",
+      "name": "Send Standard Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -140,
+        460
+      ],
+      "webhookId": "3eeb0b22-572f-4bec-b4c4-83c9cf69d4d1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1pgzEadLS7XXl05k",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "New Order Webhook": [
+      {
+        "json": {
+          "order_id": 999,
+          "customer_name": "Bi hadak",
+          "customer_email": "hadak@gmail.com",
+          "total_amount": 700,
+          "order_date": "2026-01-01",
+          "invoice_number": "INV-20260101-999",
+          "items": [
+            "book",
+            "sneakers",
+            "bottle",
+            "clipboard"
+          ]
+        }
+      }
+    ]
+  },
+  "connections": {
+    "New Order Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Order Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Order Data": {
+      "main": [
+        [
+          {
+            "node": "Save Order to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Order to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "High Value Order?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "High Value Order?": {
+      "main": [
+        [
+          {
+            "node": "Generate Premium Invoice HTML",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log VIP Order",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Standard Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Premium Invoice HTML": {
+      "main": [
+        [
+          {
+            "node": "Send Premium Invoice Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Premium Invoice Email": {
+      "main": [
+        []
+      ]
+    },
+    "Log VIP Order": {
+      "main": [
+        [
+          {
+            "node": "Alert Sales Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Standard Confirmation": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6c11dcb7-a455-4f54-b4da-70346cc63620",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc9068f679b56be17f92fa1ea221ec744d2e642f1ad32eac7e68aad67c2cb363"
+  },
+  "id": "thUCmeCASitX9w1D",
+  "tags": []
+}
