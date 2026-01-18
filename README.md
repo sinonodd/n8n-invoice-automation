@@ -1,5 +1,8 @@
 # n8n-invoice-automation
 
+<img width="1167" height="590" alt="image" src="https://github.com/user-attachments/assets/febb1937-27c6-4012-8296-de5c972ba5d8" />
+
+
 # Invoice Automation Workflow
 
 ## 🎯 Purpose
